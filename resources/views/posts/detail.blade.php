@@ -38,7 +38,8 @@
                                     <p>{{ $comment->comment }}</p>
                                     <small>{{ $comment->user->name }}</small><span>
                                         {{ $comment->created_at->diffForHumans() }}</span>
-                                    <button>Delete</button>
+                                    <button data-userid="{{ $user !== null ? $user->id : 0 }}"
+                                        data-commentid="{{ $comment->id }}" class="btn-comment-delete">Delete</button>
                                 </div>
                             @endforeach
                         </div>
@@ -57,6 +58,10 @@
         addLikeEvent(likeButton, api_token);
 
         var cmtForm = document.getElementById('comment-form');
-        addCommentSubmitEvent(cmtForm, api_token)
+        addCommentSubmitEvent(cmtForm, api_token);
+
+        var cmtDeleteBtns = document.querySelectorAll('.btn-comment-delete');
+        cmtDeleteBtns.forEach(deleteBtn => addDeleteCommentEvent(deleteBtn,
+            api_token));
     </script>
 @endsection

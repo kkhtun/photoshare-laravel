@@ -4,12 +4,14 @@ namespace App\Http\Controllers\Admin;
 
 use App\Post;
 use App\User;
+use App\PostLike;
+use App\PostComment;
 use App\CategoryPost;
 use App\Helpers\Helper;
 use Illuminate\Http\Request;
+
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
-
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Hash;
 use function PHPUnit\Framework\returnSelf;
@@ -102,6 +104,8 @@ class UserController extends Controller
             $postsToDelete = Post::where('user_id', $user->id)->get();
             if ($postsToDelete) {
                 Post::where('user_id', $user->id)->delete();
+                PostLike::where('user_id', $user->id)->delete();
+                PostComment::where('user_id', $user->id)->delete();
                 $deletedIds = [];
                 foreach ($postsToDelete as $post) {
                     $deletedIds[] = $post->id;

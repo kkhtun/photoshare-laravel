@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\PostComment;
+use App\Post;
 use App\PostLike;
+use App\PostComment;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Validator;
 
 class ApiController extends Controller
@@ -14,11 +16,11 @@ class ApiController extends Controller
     //
     public function likePost(Request $request)
     {
-        $validation = $this->validator($request, 'like');
-        if ($validation == false || Auth::id() != $request->userid) {
+        $validator = $this->validator($request, 'like');
+        if ($validator->fails()) {
             return response()->json([
-                "status" => "something went wrong"
-            ], 401);
+                "status" => $validator->errors()->first()
+            ], 400);
         }
         $status = "";
         DB::beginTransaction();
@@ -50,11 +52,11 @@ class ApiController extends Controller
 
     public function commentPost(Request $request)
     {
-        $validation = $this->validator($request, 'comment');
-        if ($validation == false || Auth::id() != $request->userid) {
+        $validator = $this->validator($request, 'comment');
+        if ($validator->fails()) {
             return response()->json([
-                "status" => "Invalid Comment"
-            ], 401);
+                "status" => $validator->errors()->first()
+            ], 400);
         }
         DB::beginTransaction();
         try {
@@ -74,24 +76,57 @@ class ApiController extends Controller
         } catch (\Exception $e) {
             DB::rollBack();
             return response()->json([
+                "status" => "Something went wrong"
+            ], 500);
+        }
+    }
+
+    public function deleteComment(Request $request)
+    {
+        $validator = $this->validator($request, 'comment-delete');
+        if ($validator->fails()) {
+            return response()->json([
+                "status" => $validator->errors()->first()
+            ], 400);
+        }
+        $comment = PostComment::find($request->commentid);
+        if (!$comment || !Gate::allows('change-comment', $comment)) {
+            return response()->json([
+                "status" => "Unauthorized"
+            ], 403);
+        }
+        DB::beginTransaction();
+        try {
+            $comment = PostComment::find($request->commentid);
+            $comment->delete();
+            DB::commit();
+            return response()->json([
+                "status" => true
+            ], 200);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return response()->json([
                 "status" => false
             ], 500);
         }
     }
     public function validator(Request $request, $reqType = 'like')
     {
-        $rules = [
-            "postid" => "required|integer|exists:posts,id",
-            "userid" => "required|integer|exists:users,id"
-        ];
+        $rules = [];
+        if ($reqType == 'like') {
+            $rules["postid"] = "required|integer|exists:posts,id";
+            $rules["userid"] = "required|integer";
+        }
         if ($reqType == 'comment') {
+            $rules["postid"] = "required|integer|exists:posts,id";
+            $rules["userid"] = "required|integer";
             $rules["comment"] = "required|string";
         }
-        $validator = Validator::make($request->all(), $rules);
-        if ($validator->fails()) {
-            return false;
-        } else {
-            return true;
+        if ($reqType == 'comment-delete') {
+            $rules["userid"] = "required|integer";
+            $rules["commentid"] = "required|integer|exists:post_comments,id";
         }
+        $validator = Validator::make($request->all(), $rules);
+        return $validator;
     }
 }

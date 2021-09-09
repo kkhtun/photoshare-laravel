@@ -21,5 +21,6 @@ Route::middleware('auth:api')->prefix('/v1')->group(function () {
 
     Route::get('/like-post', 'ApiController@likePost');
     Route::post('/comment-post', 'ApiController@commentPost');
+    Route::post('/comment-delete', 'ApiController@deleteComment');
 });
 Route::get('/test', 'ApiController@test');
