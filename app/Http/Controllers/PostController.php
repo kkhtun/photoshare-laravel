@@ -179,12 +179,18 @@ class PostController extends Controller
         if (!$user) abort(404);
         $posts = $this->postsByUser($user->id);
         $categories = Category::all();
+        if (Auth::id() == $user->id) {
+            $own = true;
+        } else {
+            $own = false;
+        }
         return view(
             'home',
             [
                 'posts' => $posts,
                 'title' => "$user->name's Posts",
-                'categories' => $categories
+                'categories' => $categories,
+                'own' => $own
             ]
         );
     }

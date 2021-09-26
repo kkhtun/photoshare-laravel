@@ -19,7 +19,6 @@ class PostController extends Controller
     {
         $this->middleware('auth:admin');
     }
-
     public function showEditForm($id)
     {
         $post = Post::find($id);

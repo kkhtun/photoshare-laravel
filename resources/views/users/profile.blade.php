@@ -1,23 +1,17 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-8">
-                <div class="card">
-                    <div class="card-header">{{ __('Profile') }}</div>
-
-                    <div class="card-body">
-                        <img src="https://ui-avatars.com/api/?name={{ $user->name }}" width="50"
-                            class="rounded-circle mb-2">
-                        <h5>{{ $user->name }}</h5>
-                        <p>Email: {{ $user->email }}</p>
-                        <p>Posts: {{ count($user->posts) }}</p>
-                        <div>
-                            <a href="{{ route('users.edit') }}">Change Details</a>
-                            {{-- <a href="">Delete Account</a> --}}
-                        </div>
-                    </div>
+    <div class="card-wrapper">
+        <div class="profile-card">
+            <h4>{{ __('Profile') }}</h4>
+            <hr>
+            <div class="profile-card-body">
+                <img src="https://ui-avatars.com/api/?name={{ $user->name }}&background=ADD8E6" class="profile-avatar">
+                <h5>{{ $user->name }}</h5>
+                <p class="email">{{ $user->email }}</p>
+                <p class="post-count"><span>{{ count($user->posts) }}</span> posts in total</p>
+                <div class="profile-edit">
+                    <a href="{{ route('users.edit') }}" class="btn-edit-post">Change Details</a>
                 </div>
             </div>
         </div>

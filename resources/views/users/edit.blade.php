@@ -1,97 +1,61 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-8">
-                <div class="card">
-                    <div class="card-header">{{ __($title) }}</div>
+    <div class="form-wrapper">
+        <form class="form" method="POST" action="{{ route($submitRoute) }}">
+            @csrf
+            <input type="hidden" name="id" value="{{ $user->id }}">
+            <h3>{{ __($title) }}</h3>
+            <div class="form-group">
+                <input id="name" type="text" class="@error('name') is-invalid @enderror" name="name"
+                    placeholder="Change Username" value="{{ old('name') ? old('name') : $user->name }}" required
+                    autocomplete="name" autofocus>
 
-                    <div class="card-body">
-                        <form method="POST" action="{{ route($submitRoute) }}">
-                            @csrf
-                            <input type="hidden" name="id" value="{{ $user->id }}">
-                            <div class="form-group row">
-                                <label for="name" class="col-md-4 col-form-label text-md-right">{{ __('Name') }}</label>
-
-                                <div class="col-md-6">
-                                    <input id="name" type="text" class="form-control @error('name') is-invalid @enderror"
-                                        name="name" value="{{ old('name') ? old('name') : $user->name }}" required
-                                        autocomplete="name" autofocus>
-
-                                    @error('name')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
-                                </div>
-                            </div>
-
-                            <div class="form-group row">
-                                <label for="email"
-                                    class="col-md-4 col-form-label text-md-right">{{ __('E-Mail Address') }}</label>
-
-                                <div class="col-md-6">
-                                    <input id="email" type="email" class="form-control @error('email') is-invalid @enderror"
-                                        name="email" value="{{ old('email') ? old('email') : $user->email }}" required
-                                        autocomplete="email">
-
-                                    @error('email')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
-                                </div>
-                            </div>
-                            <div class="form-group row">
-                                <div class="offset-md-4 col-md-6">
-                                    <hr>
-                                    <span class="text-muted">Leave the following fields blank if you do not wish to
-                                        change
-                                        password
-                                    </span>
-                                </div>
-                            </div>
-
-                            <div class="form-group row">
-                                <label for="password"
-                                    class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
-
-                                <div class="col-md-6">
-                                    <input id="password" type="password"
-                                        class="form-control @error('password') is-invalid @enderror" name="password"
-                                        autocomplete="new-password" placeholder="Password">
-
-                                    @error('password')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
-                                </div>
-                            </div>
-
-                            <div class="form-group row">
-                                <label for="password-confirm"
-                                    class="col-md-4 col-form-label text-md-right">{{ __('Confirm Password') }}</label>
-
-                                <div class="col-md-6">
-                                    <input id="password-confirm" type="password" class="form-control"
-                                        name="password_confirmation" autocomplete="new-password"
-                                        placeholder="Confirm Password">
-                                </div>
-                            </div>
-
-                            <div class="form-group row mb-0">
-                                <div class="col-md-6 offset-md-4">
-                                    <button type="submit" class="btn btn-primary">
-                                        {{ __('Update User') }}
-                                    </button>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div>
+                @error('name')
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                @enderror
             </div>
-        </div>
+
+            <div class="form-group">
+                <input id="email" type="email" class="@error('email') is-invalid @enderror" name="email"
+                    value="{{ old('email') ? old('email') : $user->email }}" required autocomplete="email"
+                    placeholder="Change Email Address">
+
+                @error('email')
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                @enderror
+            </div>
+            <div class="form-group">
+                <span><i class="fas fa-exclamation-circle"></i>&nbsp;Leave the following fields blank if you do not wish to
+                    change
+                    password
+                </span>
+            </div>
+            <div class="form-group">
+                <input id="password" type="password" class="@error('password') is-invalid @enderror" name="password"
+                    autocomplete="new-password" placeholder="Enter New Password">
+
+                @error('password')
+                    <span class="invalid-feedback" role="alert">
+                        <strong>{{ $message }}</strong>
+                    </span>
+                @enderror
+            </div>
+            <div class="form-group">
+                <input id="password-confirm" type="password" name="password_confirmation" autocomplete="new-password"
+                    placeholder="Confirm New Password">
+            </div>
+
+            <div class="form-group">
+                <button type="submit">
+                    {{ __('Update User') }}
+                </button>
+            </div>
+            <p>Not Now? <a href="#" onclick="history.back();">Back</a></p>
+        </form>
     </div>
 @endsection

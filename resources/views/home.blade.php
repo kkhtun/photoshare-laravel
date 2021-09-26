@@ -1,65 +1,59 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-8">
-                <div class="card">
 
-                    <div class="card-header">{{ __($title) }}</div>
+    <div class="filters">
+        <form action="{{ url()->current() }}" method="GET" id="category-filter" onchange="this.submit();">
+            <select name="category">
+                <option value="">All Categories</option>
+                @foreach ($categories as $cat)
+                    <option value="{{ $cat->slug }}" {{ request()->category == $cat->slug ? 'selected' : '' }}>
+                        {{ $cat->name }}</option>
+                @endforeach
+            </select>
 
-                    <div class="card-body">
-                        <div>
-                            Count: {{ $posts->total() }}
-                        </div>
-                        <div class="border border-secondary mb-2">
-                            <a href="{{ url()->current() }}">All</a> |
-                            @foreach ($categories as $cat)
-                                <a href="{{ url()->current() . '?category=' . $cat->slug }}">{{ $cat->name }}</a> |
-                            @endforeach
-                        </div>
-                        @auth
-                            <div class="border border-secondary mb-2">
-                                <a href="{{ route('home') }}">All</a> |
-                                @foreach (\App\User::all() as $user)
-                                    <a href="{{ "/users/posts/$user->slug" }}">{{ $user->name }}</a> |
-                                @endforeach
-                            </div>
-                        @endauth
-                        <section class="row px-2">
-                            @foreach ($posts as $post)
-                                <div class="col-md-6">
-                                    <div class="card">
-                                        <div class="card-header">{{ $post->caption }}</div>
-                                        <div class="card-body">
-                                            <img class="card-img" src="{{ url('/images/posts/girl.jpg') }}"
-                                                alt="post image">
-                                            <p class="text-muted">{{ $post->user->name }}</p>
-                                            <div>
-                                                <button class="btn btn-like btn-sm btn-outline-primary"
-                                                    data-postid="{{ $post->id }}"
-                                                    data-userid="{{ auth()->check() ? auth()->user()->id : 0 }}">Like :
-                                                    <span>{{ count($post->likes) }}</span>
-                                                </button>
-                                                <span>Comments: {{ count($post->comments) }}</span>
-                                            </div>
-                                            <a href="{{ url('/detail/' . $post->slug) }}"
-                                                class="btn btn-info btn-sm">Detail</a>
-                                            <a href="{{ url('/posts/edit/' . $post->slug) }}"
-                                                class="btn btn-secondary btn-sm">Edit</a>
-                                            <a href="{{ url('/posts/delete/' . $post->slug) }}"
-                                                class="btn btn-warning btn-sm">Delete</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            @endforeach
+            @isset($users)
+                <select name="user" id="author-select">
+                    <option value="">All Authors</option>
+                    @foreach ($users as $user)
+                        <option value="{{ $user->slug }}" {{ request()->user == $user->slug ? 'selected' : '' }}>
+                            {{ $user->name }}
+                        </option>
+                    @endforeach
+                </select>
+            @endisset
+        </form>
+    </div>
 
-                        </section>
-                        {!! $posts->links() !!}
+    <div class="card-wrapper">
+        @foreach ($posts as $post)
+            <div class="card">
+                <div class="card-banner">
+                    <img class="banner-img" src="{{ url('/images/posts/girl.jpg') }}" alt="" />
+                </div>
+                <div class="card-body">
+                    <p class="categories">
+                        @foreach ($post->categories as $cat)
+                            <span>{{ $cat->name }}</span>
+                        @endforeach
+                    </p>
+                    <h2 class="post-caption">{{ $post->caption }}</h2>
+                    <p class="post-author"><small>By {{ $post->user->name }}</small></p>
+                    <div class="post-interact">
+                        <span><a href="{{ url('/detail/' . $post->slug) }}">View Post</a></span>
+                        <span class="btn-like likes" data-postid="{{ $post->id }}"
+                            data-userid="{{ auth()->check() ? auth()->user()->id : 0 }}"><i
+                                class="far fa-thumbs-up like-icon {{ $post->likes }}"></i><strong>{{ count($post->likes) }}</strong></span>
+                        <span class="comments"
+                            onclick="document.location = '{{ url('/detail/' . $post->slug) }}#comment-form';"><i
+                                class="far fa-comment comment-icon"></i><strong>{{ count($post->comments) }}</strong></span>
                     </div>
                 </div>
             </div>
-        </div>
+        @endforeach
+    </div>
+    <div class="pagination" style="display:flex; justify-content: center;">
+        {!! $posts->links() !!}
     </div>
 @endsection
 @section('scripts')

@@ -4,6 +4,7 @@ function addLikeEvent(likeBtn, api_token = "") {
         var userId = this.dataset.userid;
         if (userId == 0) {
             location.href = "/login";
+            return;
         }
         fetch(`/api/v1/like-post?postid=${postId}&userid=${userId}`, {
             headers: {
@@ -18,7 +19,7 @@ function addLikeEvent(likeBtn, api_token = "") {
                 } else if (data.status === "unliked") {
                     toastr.warning("Post Unliked");
                 }
-                this.children[0].innerHTML = data.count;
+                this.children[1].innerHTML = data.count;
             });
     });
 }
@@ -26,18 +27,17 @@ function addLikeEvent(likeBtn, api_token = "") {
 function buildCommentNode(comment, username, time, attrs = {}) {
     var cmtNode = document.createElement("div");
     var cmtText = document.createElement("p");
-    var cmtUser = document.createElement("small");
-    var cmtTime = document.createElement("span");
+    var cmtMeta = document.createElement("span");
+    var cmtUser = document.createElement("strong");
+    var cmtTime = document.createElement("i");
     var cmtDelete = document.createElement("button");
-    cmtNode.classList.add(
-        "comment-item",
-        "border",
-        "border-secondary",
-        "rounded",
-        "p-2",
-        "mb-1"
-    );
+
+    // Add Classes where necessary for css styling
+    cmtNode.classList.add("comment-card");
+    cmtDelete.classList.add("comment-delete");
+
     cmtText.appendChild(document.createTextNode(comment));
+    var byText = document.createTextNode("By ");
     cmtUser.appendChild(document.createTextNode(username));
     cmtTime.appendChild(document.createTextNode(" " + time));
     cmtDelete.appendChild(document.createTextNode("Delete"));
@@ -45,11 +45,13 @@ function buildCommentNode(comment, username, time, attrs = {}) {
     // Add necessary attributes for delete event
     cmtDelete.setAttribute("data-userid", attrs["userid"]);
     cmtDelete.setAttribute("data-commentid", attrs["commentid"]);
-    cmtDelete.setAttribute("class", "btn-comment-delete");
 
+    // Build Hierarchy
     cmtNode.appendChild(cmtText);
-    cmtNode.appendChild(cmtUser);
-    cmtNode.appendChild(cmtTime);
+    cmtMeta.appendChild(byText);
+    cmtMeta.appendChild(cmtUser);
+    cmtMeta.appendChild(cmtTime);
+    cmtNode.appendChild(cmtMeta);
     cmtNode.appendChild(cmtDelete);
     return cmtNode;
 }

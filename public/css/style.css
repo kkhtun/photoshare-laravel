@@ -1,0 +1,810 @@
+/* Main Style Header Nav and Footer ------------------------------------*/
+:root {
+    --primary-color: rgba(35, 39, 42, 0.75);
+    --primary-color-dark: rgba(35, 39, 42, 0.9);
+    --secondary-color: greenyellow;
+}
+::placeholder {
+    /* Chrome, Firefox, Opera, Safari 10.1+ */
+    color: gainsboro;
+    opacity: 1; /* Firefox */
+}
+* {
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+    box-sizing: border-box;
+    color: whitesmoke;
+}
+body {
+    background: linear-gradient(
+        var(--primary-color-dark),
+        var(--primary-color)
+    );
+}
+a {
+    text-decoration: none;
+    color: whitesmoke;
+}
+hr {
+    background-color: whitesmoke;
+}
+.banner {
+    width: 100%;
+    height: 100vh;
+    background-size: cover;
+    background-position: center;
+    background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
+        url(../images/bg-main.jpg);
+}
+
+/* Start Navbar */
+.navbar {
+    width: 85%;
+    margin: auto;
+    padding: 20px 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.navbar h1 {
+    color: white;
+    cursor: pointer;
+    font-size: 32px;
+    letter-spacing: 4px;
+    transition: 0.5s;
+}
+
+.navbar h1:hover {
+    color: greenyellow;
+}
+
+.navbar ul li {
+    display: inline-block;
+    list-style: none;
+    margin: 0 20px;
+    position: relative;
+}
+
+.navbar ul li a {
+    text-decoration: none;
+    color: white;
+    text-transform: uppercase;
+    font-weight: 700;
+}
+
+.navbar ul li::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -8px;
+    width: 0%;
+    height: 3px;
+    background: greenyellow;
+    transition: 0.5s;
+}
+
+.navbar ul li:hover::after {
+    width: 100%;
+}
+.navbar ul li.active::after {
+    width: 100%;
+}
+
+.navbar .drop-down {
+    position: relative;
+}
+.navbar .drop-down:hover .sub-nav, .navbar .drop-down:focus .sub-nav{
+    width: 160px;
+}
+.navbar .sub-nav {
+    text-align: center;
+    text-transform: uppercase;
+    border-radius: 5px;
+    background: var(--primary-color-dark);
+    position: absolute;
+    margin-top: 10px;
+    right: -20px;
+    padding: 10px 0 15px 0;
+    transition: 0.5s;
+    overflow: hidden;
+    width: 0px;
+    z-index: 1;
+}
+.navbar .sub-nav li {
+    font-weight: bold;
+    margin: 10px 20px;
+    cursor: pointer;
+}
+.navbar .drop-down i{
+    display: inline-block;
+    font-size: 18px;
+    width: 30px;
+    text-align: center;
+}
+/* End Navbar */
+
+/* Start Home Content */
+.home-content {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 100%;
+    text-align: center;
+    color: white;
+}
+
+.home-content h2 {
+    text-transform: uppercase;
+    font-size: 38px;
+}
+.home-content p {
+    line-height: 1.5rem;
+    margin: 15px 0;
+}
+.home-content button {
+    width: 200px;
+    margin: 5px 20px;
+    padding: 10px 0;
+    border-radius: 25px;
+    background: transparent;
+    color: white;
+    border: 2px solid greenyellow;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 16px;
+    transition: 0.5s;
+}
+.home-content button:hover {
+    background: greenyellow;
+    color: black;
+}
+
+/* Footer  */
+footer {
+    min-height: 200px;
+    background: var(--primary-color-dark);
+    color: gainsboro;
+    font-weight: 300;
+}
+footer .line {
+    text-align: center;
+    padding-bottom: 10px;
+}
+footer .footer-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+}
+footer .col {
+    width: 49%;
+    padding: 60px;
+    text-align: center;
+}
+footer .col p {
+    line-height: 22px;
+}
+footer .col .social {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.social a {
+    margin: 0 10px;
+    font-size: 30px;
+    color: whitesmoke;
+    transition: 0.3s;
+}
+.social a:hover {
+    transform: scale(1.2);
+}
+
+/* Card and Post styles -------------------------------*/
+
+/* Start Post Layout */
+main.wrapper {
+    width: 100%;
+    min-height: 100vh;
+}
+.filters {
+    width: 80%;
+    margin: 20px auto;
+    display: flex;
+    justify-content: center;
+}
+#category-filter, #author-filter {
+    margin: 10px;
+}
+#category-filter select, #author-filter select {
+    background: transparent;
+    padding: 6px;
+    width: 200px;
+    border-radius: 5px;
+    transition: 0.5s;
+}
+#category-filter select:hover, #author-filter select:hover {
+    cursor: pointer;
+    border: 1px solid violet;
+}
+#category-filter select option, #author-filter select option {
+    color: var(--primary-color-dark);
+}
+.card-wrapper {
+    margin: 40px;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+.card {
+    margin: 20px;
+    border-radius: 5px;
+    overflow: hidden;
+    width: 320px;
+    background: var(--primary-color);
+    box-shadow: 2px 2px 4px var(--primary-color-dark);
+    position: relative;
+    transition: 0.5s;
+}
+.card:hover {
+    transform: scale(1.04);
+}
+.banner-img {
+    width: 100%;
+    height: 15rem;
+    object-fit: cover;
+}
+.card-body {
+    margin: 1rem;
+}
+.categories span {
+    display: inline-block;
+    margin: 0 5px 0 0;
+    font-size: 12px;
+    color: whitesmoke;
+    border: 1px solid yellowgreen;
+    padding: 0 6px;
+    border-radius: 10px;
+}
+.post-caption {
+    margin: 10px 0 15px 0;
+    font-size: 20px;
+}
+.post-author small {
+    color: gainsboro;
+}
+.post-interact {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+.post-interact span {
+    margin: 0 0 0 15px;
+}
+.post-interact a {
+    text-decoration: none;
+    display: inline-block;
+    padding: 4px 10px;
+    color: gray;
+    font-weight: bold;
+    font-size: 14px;
+    border-radius: 20px;
+    transition: 0.5s;
+}
+.post-interact a:hover {
+    background: greenyellow;
+}
+.likes strong,
+.comments strong {
+    display: inline-block;
+    margin: 0 0 0 3px;
+    font-size: 14px;
+}
+.likes,
+.comments {
+    transition: 0.3s;
+    cursor: pointer;
+}
+.likes .far:hover,
+.comments .far:hover {
+    color: tomato;
+}
+.social-active {
+    color: tomato;
+}
+
+/* End Post Layout */
+/* Start Single Post */
+.caption-wrapper {
+    width: 100%;
+    background: gray;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+    margin: 0 0 10px 0;
+}
+.caption-wrapper h2 {
+    font-size: 24px;
+    letter-spacing: 2px;
+    font-weight: 600;
+}
+.post-wrapper {
+    width: 65%;
+    margin: auto;
+}
+.post-wrapper img {
+    display: block;
+    width: 100%;
+    margin: 10px auto;
+    border-radius: 10px;
+}
+.post-wrapper .post-interact {
+    margin: 10px 0px;
+    justify-content: center;
+}
+.post-wrapper .post-interact .text {
+    font-weight: 600;
+    font-size: 14px;
+}
+.post-wrapper .categories {
+    margin: 10px 0px;
+}
+.post-wrapper .categories span {
+    color: var(--primary-color-dark);
+    font-weight: bold;
+    background: greenyellow;
+    border: none;
+}
+.post-wrapper .author {
+    font-size: 18px;
+    font-weight: bold;
+    color: antiquewhite;
+}
+.btn-edit-post, .btn-delete-post {
+    display: inline-block;
+    width: 80px;
+    padding: 2px 0;
+    font-style: bold;
+    text-align: center;
+    border-radius: 4px;
+    color: var(--primary-color-dark);
+    font-size: 16px;
+    transition: 0.3s ease;
+}
+.btn-edit-post {
+    background: lightblue;
+    border: 1px solid lightblue;
+}
+.btn-delete-post {
+    background: tomato;
+    border: 1px solid tomato;
+}
+.btn-edit-post:hover {
+    text-decoration: none;
+    background: transparent;
+    color:lightblue;
+}
+.btn-delete-post:hover {
+    text-decoration: none;
+    background: transparent;
+    color:tomato;
+}
+/* Comment Section */
+.comment-section {
+    margin: 25px 0;
+    padding: 20px;
+    border: 2px solid rgba(0, 0, 0, 0.459);
+    border-radius: 10px;
+}
+.comment-form {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 0 20px 0;
+}
+.comment-form input[type="text"] {
+    width: 70%;
+    height: 40px;
+    margin-right: 5px;
+    background: transparent;
+    outline: none;
+    border: none;
+    font-size: 16px;
+    color: white;
+    transition: 0.25s;
+}
+.comment-form input[type="text"]:focus {
+    border-bottom: 1px solid violet;
+}
+.comment-form button {
+color: whitesmoke;
+  font-weight: bold;
+  font-size: 16px;
+  width: 20%;
+  height: 35px;
+  border-radius: 10px;
+  border: 1px solid violet;
+  background: transparent;
+  cursor: pointer;
+  transition: 0.3s ease-in;
+}
+.comment-form button:hover {
+    cursor: pointer;
+  background: violet;
+}
+.comment-list {
+    padding: 20px 5px 10px 15px;
+}
+.comment-card {
+    position: relative;
+    margin: 5px 0 25px 0;
+    color: white;
+}
+.comment-card::before {
+    content: "";
+    width: 3px;
+    height: 100%;
+    position: absolute;
+    left: -10px;
+    background: var(--secondary-color);
+}
+.comment-card p {
+    line-height: 16px;
+    margin-bottom: 10px;
+}
+.comment-card span {
+    font-size: 14px;
+}
+.comment-card .comment-delete {
+    color: tomato;
+    font-size: 12px;
+    display: inline-block;
+    margin-left: 20px;
+    outline: none;
+    border: none;
+    background: transparent;
+    transition: 0.3s;
+}
+.comment-card .comment-delete:hover {
+    color: red;
+}
+/* Form styles -----------------------------------------*/
+
+.form-wrapper {
+    width: 85%;
+    margin: auto;
+}
+.form {
+    width: 350px;
+    margin: 50px auto;
+    background: gray;
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 4px 4px 2px var(--primary-color-dark);
+}
+.form h3 {
+    text-align: center;
+    font-size: 24px;
+    margin: 15px 0 35px 0;
+}
+.form-group label {
+    margin: 0;
+}
+.form-group {
+    margin: 0 0 30px 0;
+}
+.form input {
+    width: 100%;
+    outline: none;
+    border: none;
+    border-bottom: 1px solid gainsboro;
+    background: transparent;
+    height: 30px;
+    padding: 10px 0;
+    font-size: 16px;
+    transition: 0.3s;
+}
+.form-group.check {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+.form input[type="checkbox"] {
+    display: inline-block;
+    margin-left: 8px;
+    width: 16px;
+    height: 16px;
+}
+.form input:focus {
+    border-bottom: 1px solid violet;
+}
+.form p {
+    text-align: center;
+    font-size: 14px;
+    margin-top: 30px;
+    margin-bottom: 20px;
+}
+.form a {
+    color: aqua;
+}
+.invalid-feedback strong {
+    color: pink;
+    font-weight: 500;
+}
+.form button {
+    color: var(--primary-color);
+    font-weight: bold;
+    font-size: 16px;
+    width: 90%;
+    display: block;
+    margin: 0 auto;
+    height: 30px;
+    border-radius: 20px;
+    border: none;
+    background: var(--secondary-color);
+    cursor: pointer;
+    transition: 0.3s ease-in;
+}
+.form button:hover {
+    color: whitesmoke;
+    background: violet;
+}
+
+/* article form */
+.post-form {
+    margin: 50px 0;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    background: gray;
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 4px 4px 2px var(--primary-color-dark);
+}
+.post-form .img-preview {
+    width: 40%;
+    padding: 20px;
+}
+.post-form img {
+    border: 2px solid whitesmoke;
+    border-radius: 10px;
+    width: 100%;
+}
+.post-form .post-input {
+    width: 60%;
+}
+.post-form .post-input h3 {
+    text-align: center;
+    font-size: 24px;
+    margin: 15px 0 35px 0;
+}
+.post-form .form-group {
+    margin: 25px 0;
+    text-align: center;
+}
+.post-form .post-input input[type="text"] {
+    display: block;
+    width: 80%;
+    margin: auto;
+    outline: none;
+    border: none;
+    border-bottom: 1px solid gainsboro;
+    background: transparent;
+    height: 30px;
+    padding: 10px 0;
+    font-size: 16px;
+    transition: 0.3s;
+}
+.post-form .post-input .form-categories {
+    width: 80%;
+    margin: 30px auto;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+}
+.post-form .post-input .form-categories span {
+    width: 20%;
+    margin-left: 4%;
+}
+.post-form .post-input .form-categories span input {
+    margin-right: 5px;
+}
+
+.post-form .post-input .form-image {
+    width: 80%;
+    margin: 20px auto;
+}
+.post-form .post-input .form-image input {
+    display: none;
+}
+.post-form .post-input .form-image label {
+    display: block;
+    width: 160px;
+    margin: auto;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 14px;
+    background: var(--primary-color-dark);
+    text-align: center;
+    transition: 0.25s;
+}
+.post-form .post-input .form-image label:hover {
+    background: var(--primary-color);
+    cursor: pointer;
+}
+
+.post-form .post-input button {
+    width: 60%;
+    display: block;
+    margin: 5px auto;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    height: 30px;
+    transition: 0.25s ease-in;
+}
+.post-form .post-input button:nth-child(1) {
+    color: var(--primary-color);
+    font-weight: bold;
+    font-size: 16px;
+    background: violet;
+}
+.post-form .post-input button:nth-child(2) {
+    color: var(--primary-color);
+    font-weight: bold;
+    font-size: 14px;
+}
+.post-form .post-input button:hover {
+    background: var(--secondary-color);
+}
+.post-form .post-delete h4 {
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+.post-form .post-delete small {
+    color: red;
+    font-weight: bold;
+}
+.post-form .post-delete i {
+    display: inline-block;
+    margin-left: 16px;
+    color: tomato;
+}
+.post-form .post-delete button[type="submit"] {
+    background: tomato;
+}
+.post-form .post-delete button[type="submit"]:hover {
+    background: red;
+    color: whitesmoke;
+}
+
+/* Profile Section---------------------------------------------------- */
+.profile-card {
+    width: 360px;
+    background: var(--primary-color);
+    border-radius: 20px;
+    padding: 30px;
+    text-align: center;
+}
+.profile-card h4 {
+    font-size: 18px;
+    text-align: center;
+}
+.profile-card .profile-avatar {
+    border-radius: 50%;
+    width: 60px;
+    display: block;
+    margin: 20px auto;
+}
+.profile-card .btn-edit-post {
+    margin-top: 20px;
+    width: 100%;
+}
+
+/* Admin CSS -----------------------------------------------------------*/
+.admin-container {
+	display: flex;
+	align-items: flex-start;
+	justify-content: flex-start;
+    flex-wrap: nowrap;
+}
+.admin-content {
+    flex-basis: 85%;
+    margin-top: 20px;
+}
+.sidebar {
+	margin: 20px;
+	padding: 15px;
+	text-align: center;
+	border-radius: 10px;
+	min-height: 50vh;
+	background-color: var(--primary-color);
+    flex-basis: 15%;
+}
+.sidebar ul {
+	list-style: none;
+	border: 1px solid var(--primary-color-dark);
+	background-color: var(--primary-color-dark);
+	border-radius: 10px;
+	overflow: hidden;
+}
+.sidebar ul li {
+	cursor: pointer;
+	transition: 0.3s ease;
+}
+.sidebar ul li a{
+    text-decoration: none;
+    display: inline-block;
+	color: inherit;
+    width: 100%;
+	font-weight: bold;
+    padding: 15px 30px;
+}
+.sidebar ul li:hover, .sidebar .sidebar-active {
+	color: var(--primary-color-dark);
+	background-color: lightblue;
+}
+
+/* Users ------------*/
+.admin-content table .btn-edit-post, .admin-content table .btn-delete-post {
+    font-size: 16px;
+    display: inline-block;
+    width: 30px;
+}
+.admin-content table .btn-edit-post i, .admin-content table .btn-delete-post i {
+    color: var(--primary-color);
+}
+.admin-content table .btn-edit-post:hover i , .admin-content table .btn-delete-post:hover i{
+    color: whitesmoke;
+}
+
+.admin-content > h4 {
+    text-align: center;
+    font-size: 18px;
+    padding: 10px;
+    color: var(--primary-color-dark);
+    background: whitesmoke;
+}
+.admin-content > a.btn-new {
+    text-decoration: none;
+    color: var(--primary-color-dark);
+    font-weight: bold;
+    display: inline-block;
+    border-radius: 5px;
+    background: violet;
+    border: 1px solid violet;
+    padding: 5px 20px;
+    margin: 5px 0;
+}
+.admin-content > a.btn-new:hover {
+    background: transparent;
+    color: whitesmoke;
+}
+.user-delete-form h4 {
+    margin-bottom: 20px;
+}
+.user-delete-form p {
+    font-size: 18px;
+    color: tomato;
+    margin: 0;
+}
+.user-delete-form p i {
+    color: tomato;
+}
+.user-delete-form .delete-data-notice {
+    display: inline-block;
+    margin-top: 25px;
+    color: red;
+}
+.user-delete-form .btn-delete-post,  .user-delete-form .btn-edit-post{
+    width: 50%;
+    margin-top: 5px;
+}
+.category-form {
+    width: 400px;
+    margin: auto;
+}
+.category-form .post-input{
+    flex-basis: 100%;
+}

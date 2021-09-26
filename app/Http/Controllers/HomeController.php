@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Category;
 use Illuminate\Http\Request;
 use App\Post;
+use App\User;
 use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
@@ -26,17 +27,31 @@ class HomeController extends Controller
         if (request()->get('category')) {
             $category = Category::where('slug', request()->get('category'))->first();
             if (!$category) abort(404);
-            $posts = $category->posts()->with(['user', 'likes', 'comments'])->orderBy('id', 'DESC')->paginate(static::$perPage)->withQueryString();
-        } else {
-            $posts = Post::with(['user', 'likes', 'comments'])->orderBy('id', 'DESC')->paginate(static::$perPage)->withQueryString();
         }
+        if (request()->get('user')) {
+            $user = User::where('slug', request()->get('user'))->first();
+            if (!$user) abort(404);
+        }
+
+        if (isset($category) && isset($user)) {
+            $posts = $category->posts()->with(['likes', 'comments'])->where('user_id', $user->id)->orderBy('id', 'DESC')->paginate(static::$perPage)->withQueryString();
+        } else if (isset($category) && !isset($user)) {
+            $posts = $category->posts()->with(['user', 'likes', 'comments'])->orderBy('id', 'DESC')->paginate(static::$perPage)->withQueryString();
+        } else if (!isset($category) && isset($user)) {
+            $posts = Post::where('user_id', $user->id)->with(['user', 'categories', 'likes', 'comments'])->orderBy('id', 'DESC')->paginate(static::$perPage)->withQueryString();
+        } else {
+            $posts = Post::with(['categories', 'user', 'likes', 'comments'])->orderBy('id', 'DESC')->paginate(static::$perPage)->withQueryString();
+        }
+
         $categories = Category::all();
+        $users = User::all();
         return view(
             'home',
             [
                 'posts' => $posts,
                 'title' => 'Home Page',
-                'categories' => $categories
+                'categories' => $categories,
+                'users' => $users
             ]
         );
     }

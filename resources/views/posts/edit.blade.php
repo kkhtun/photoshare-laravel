@@ -1,95 +1,64 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-8">
-                <div class="card">
-                    <div class="card-header">{{ __($title) }}</div>
+    <div class="form-wrapper">
+        <form method="POST" action="{{ route($submitRoute) }}" enctype="multipart/form-data" class="post-form">
+            @csrf
+            <input type="hidden" name="id" value="{{ $post->id }}">
+            <div class="img-preview">
+                <img src="{{ asset('images/posts/' . $post->filename) }}" id="output" />
+            </div>
+            <div class="post-input">
+                <h3>{{ __($title) }}</h3>
+                <div class="form-group">
+                    <input id="caption" type="text" placeholder="Post Caption" class="@error('caption') is-invalid @enderror"
+                        name="caption" value="{{ old('caption') ? old('caption') : $post->caption }}"
+                        autocomplete="caption" autofocus>
 
-                    <div class="card-body">
-                        <form method="POST" action="{{ route($submitRoute) }}" enctype="multipart/form-data">
-                            @csrf
-                            <input type="hidden" name="id" value="{{ $post->id }}">
-                            <div class="form-group row">
-                                <label for="caption"
-                                    class="col-md-4 col-form-label text-md-right">{{ __('Caption') }}</label>
+                    @error('caption')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                    @enderror
+                </div>
 
-                                <div class="col-md-6">
-                                    <input id="caption" type="text"
-                                        class="form-control @error('caption') is-invalid @enderror" name="caption"
-                                        value="{{ old('caption') ? old('caption') : $post->caption }}"
-                                        autocomplete="caption" autofocus>
-
-                                    @error('caption')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                    @enderror
-                                </div>
-                            </div>
-
-                            <div class="form-group row">
-                                <label for="categories"
-                                    class="col-md-4 col-form-label text-md-right">{{ __('Categories') }}</label>
-
-                                <div class="col-md-6">
-                                    <div class="row">
-                                        @foreach ($categories as $cat)
-                                            <div class="form-check offset-md-1 col-md-5">
-                                                <input class="form-check-input" @error('categories') is-invalid @enderror"
-                                                    type="checkbox" value="{{ $cat->id }}" id="categories"
-                                                    name="categories[]" @if (is_array(old('categories')))
-                                                {{ in_array($cat->id, old('categories')) ? 'checked' : '' }}
-                                            @else
-                                                {{ in_array($cat->id, $post->categoryIds) ? 'checked' : '' }}
-                                        @endif>
-                                        <label class="form-check-label" for="categories">
-                                            {{ $cat->name }}
-                                        </label>
-                                    </div>
-                                    @endforeach
-                                </div>
-                                @error('categories')
-                                    <strong class="text-danger">{{ $message }}</strong>
-                                @enderror
-                                @if ($errors->has('categories.*'))
-                                    @foreach ($errors->get('categories.*') as $err)
-                                        <strong class="text-danger">{{ $err[0] }}</strong>
-                                    @endforeach
-                                @endif
-                            </div>
-                    </div>
-
-                    <div class="form-group row">
-                        <label for="image" class="col-md-4 col-form-label text-md-right">{{ __('Photo') }}</label>
-
-                        <div class="col-md-6">
-                            <input id="image" type="file" class="form-control @error('image') is-invalid @enderror"
-                                name="image" onchange="loadFile(event)">
-
-                            @error('image')
-                                <span class="invalid-feedback" role="alert">
-                                    <strong>{{ $message }}</strong>
-                                </span>
-                            @enderror
-                            <img id="output" width="300" class="m-1 rounded-sm"
-                                src="{{ asset('images/posts/' . $post->filename) }}">
-                        </div>
-                    </div>
-
-                    <div class="form-group row mb-0">
-                        <div class="col-md-6 offset-md-4">
-                            <button type="submit" class="btn btn-primary">
-                                {{ __('Update Post') }}
-                            </button>
-                        </div>
-                    </div>
-                    </form>
+                <div class="form-group form-categories">
+                    @foreach ($categories as $cat)
+                        <span><input type="checkbox" class="@error('categories') is-invalid @enderror"
+                                value="{{ $cat->id }}" id="categories" name="categories[]" @if (is_array(old('categories')))
+                            {{ in_array($cat->id, old('categories')) ? 'checked' : '' }}
+                        @else
+                            {{ in_array($cat->id, $post->categoryIds) ? 'checked' : '' }}
+                    @endif/>
+                    {{ $cat->name }}</span>
+                    @endforeach
+                </div>
+                <div class="text-center">
+                    @error('categories')
+                        <strong class="text-danger">{{ $message }}</strong>
+                    @enderror
+                    @if ($errors->has('categories.*'))
+                        @foreach ($errors->get('categories.*') as $err)
+                            <strong class="text-danger">{{ $err[0] }}</strong>
+                        @endforeach
+                    @endif
+                </div>
+                <div class="form-group form-image">
+                    <label for="image"><i class="far fa-file-image"></i>&nbsp;Upload Image</label>
+                    <input id="image" type="file" class="@error('image') is-invalid @enderror" name="image"
+                        onchange="loadFile(event)" />
+                    @error('image')
+                        <span class="invalid-feedback" role="alert">
+                            <strong>{{ $message }}</strong>
+                        </span>
+                    @enderror
+                </div>
+                <div class="form-group">
+                    <button type="submit">{{ __('Update Post') }}</button>
+                    <button type="button" onclick="history.back();">Back</button>
                 </div>
             </div>
-        </div>
-    </div>
+        </form>
     </div>
 @endsection
 @section('scripts')

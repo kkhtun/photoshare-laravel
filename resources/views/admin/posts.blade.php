@@ -1,25 +1,31 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="row">
+    <div class="admin-container">
         @include('inc.sidebar')
-        <div class="col-10">
-            <h4>This is admin posts page</h4>
-            <div class="mb-2">
-                <form action="{{ url()->current() }}" method="GET" id="form-categories">
-                    <select name="category" id="select-categories">
+        <div class="admin-content">
+            <h4>Posts Panel</h4>
+            <div class="admin-filters">
+                <form action="{{ url()->current() }}" method="GET" id="category-filter" onchange="this.submit();">
+                    <select name="category">
                         <option value="">All Categories</option>
                         @foreach ($categories as $cat)
-                            <option value="{{ $cat->slug }}"
-                                {{ request()->get('category') && request()->get('category') == $cat->slug ? 'selected' : '' }}>
-                                {{ $cat->name }}
+                            <option value="{{ $cat->slug }}" {{ request()->category == $cat->slug ? 'selected' : '' }}>
+                                {{ $cat->name }}</option>
+                        @endforeach
+                    </select>
+                    <select name="user" id="author-select">
+                        <option value="">All Authors</option>
+                        @foreach ($users as $user)
+                            <option value="{{ $user->slug }}" {{ request()->user == $user->slug ? 'selected' : '' }}>
+                                {{ $user->name }}
                             </option>
                         @endforeach
                     </select>
                 </form>
             </div>
             <div>
-                Count: {{ $posts->total() }}
+                This page: {{ $posts->total() }}
             </div>
             <table class="table">
                 <thead>
@@ -53,11 +59,10 @@
                             <td>{{ $post->created_at }}</td>
                             <td>{{ $post->updated_at }}</td>
                             <td>
-                                <a href="{{ route('admin.posts.edit', $post->id) }}"
-                                    class="btn btn-outline-info btn-sm">Edit
-                                    Post</a>
-                                <a href="{{ route('admin.posts.delete', $post->id) }}"
-                                    class="btn btn-outline-danger btn-sm">Delete Post</a>
+                                <a href="{{ route('admin.posts.edit', $post->id) }}" class="btn-edit-post"><i
+                                        class="fas fa-edit"></i></a>
+                                <a href="{{ route('admin.posts.delete', $post->id) }}" class="btn-delete-post"><i
+                                        class="fas fa-user-minus"></i></a>
                             </td>
                         </tr>
                     @endforeach

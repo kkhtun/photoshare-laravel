@@ -1,46 +1,38 @@
 @extends('layouts.app')
 @section('content')
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-8">
-                <div class="card">
-                    <div class="card-header">{{ __($title) }}</div>
+    {{-- The following view uses the same styles as user delete view, check css --}}
+    <div class="card-wrapper">
+        <div class="profile-card">
+            <h4>{{ __($title) }}</h4>
+            <hr>
+            <div class="profile-card-body">
+                <form method="POST" action="{{ route($submitRoute) }}" class="user-delete-form">
+                    @csrf
+                    <input type="hidden" name="id" value="{{ $category->id }}">
 
-                    <div class="card-body">
-                        <form method="POST" action="{{ route($submitRoute) }}">
-                            @csrf
-
-                            <input type="hidden" name="id" value="{{ $category->id }}">
-
-                            <div class="form-group row">
-                                <label for="name"
-                                    class="col-md-4 col-form-label text-md-right">{{ __('Confirm Delete') }}</label>
-
-                                <div class="col-md-6">
-                                    <h5>Are you sure you want to delete this category?</h5>
-                                    <p class="text-secondary">"{{ $category->name }}"</p>
-                                    <span class="text-danger text-sm">Related posts will lose this category tag.</span>
-                                    @error('id')
-                                        <div>
-                                            <strong class="text-danger text-sm">
-                                                {{ $message }}</strong>
-                                        </div>
-                                    @enderror
-                                </div>
-                            </div>
-
-
-
-                            <div class="form-group row mb-0">
-                                <div class="col-md-6 offset-md-4">
-                                    <button type="submit" class="btn btn-danger">
-                                        {{ __('Delete Category') }}
-                                    </button>
-                                </div>
-                            </div>
-                        </form>
+                    <div class="form-group">
+                        <h4>The following category will be deleted from the database.</h4>
+                        <p><i class="fas fa-exclamation-triangle"></i></p>
+                        <p id="name">{{ $category->name }}</p>
+                        <span class="delete-data-notice">Related posts will lose this category tag.</span>
                     </div>
-                </div>
+
+                    @error('id')
+                        <div class="text-center">
+                            <strong class="text-danger">
+                                {{ $message }}</strong>
+                        </div>
+                    @enderror
+
+                    <div class="form-group">
+                        <button type="submit" class="btn-delete-post">
+                            {{ __('Delete Category') }}
+                        </button>
+                        <button type="button" class="btn-edit-post" onclick="history.back();">
+                            {{ __('Back') }}
+                        </button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>

@@ -1,10 +1,10 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="row">
+    <div class="admin-container">
         @include('inc.sidebar')
-        <div class="col-10">
-            <h4>This is admin home page</h4>
+        <div class="admin-content">
+            <h4>Admin Dashboard Panel (Coming Soon!)</h4>
         </div>
     </div>
 @endsection

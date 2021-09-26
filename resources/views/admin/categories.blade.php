@@ -1,10 +1,11 @@
 @extends('layouts.app')
 @section('content')
-    <div class="row">
+    <div class="admin-container">
         @include('inc.sidebar')
-        <div class="col-10">
-            <h4>This is admin categories page</h4>
-            <a href="{{ route('admin.categories.create') }}">Create New Category</a>
+        <div class="admin-content">
+            <h4>Categories Panel</h4>
+            <a href="{{ route('admin.categories.create') }}" class="btn-new"><i class="fas fa-external-link-alt"></i>
+                New Category</a>
             <table class="table">
                 <thead>
                     <tr>
@@ -25,11 +26,10 @@
                             <td>{{ $cat->created_at }}</td>
                             <td>{{ $cat->updated_at }}</td>
                             <td>
-                                <a href="{{ route('admin.categories.edit', $cat->id) }}"
-                                    class="btn btn-outline-info btn-sm">Edit
-                                    Post</a>
-                                <a href="{{ route('admin.categories.delete', $cat->id) }}"
-                                    class="btn btn-outline-danger btn-sm">Delete Post</a>
+                                <a href="{{ route('admin.categories.edit', $cat->id) }}" class="btn-edit-post"><i
+                                        class="fas fa-edit"></i></a>
+                                <a href="{{ route('admin.categories.delete', $cat->id) }}" class="btn-delete-post"><i
+                                        class="fas fa-user-minus"></i></a>
                             </td>
                         </tr>
                     @endforeach
